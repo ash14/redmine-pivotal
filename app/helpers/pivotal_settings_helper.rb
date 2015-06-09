@@ -4,7 +4,11 @@ module PivotalSettingsHelper
     missing_setting = false
     settings = Hash[settings.map do |setting_key|
         setting_value = Setting.plugin_pivotal[setting_key]
-        missing_setting = setting_value.blank?
+
+        if setting_value.blank?
+          logger.warn("Pivotal plugin setting #{setting_key} is empty")
+          missing_setting = true
+        end
 
         [setting_key, setting_value]
       end]

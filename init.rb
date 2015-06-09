@@ -1,3 +1,5 @@
+require_dependency 'hooks'
+
 Redmine::Plugin.register :pivotal do
   name 'Pivotal Integration'
   author 'Ashvin Jayaram'
