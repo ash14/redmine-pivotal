@@ -24,6 +24,7 @@ module Pivotal
           name: context[:issue].subject,
           description: context[:issue].description,
           labels: ['redmine'],
+          story_type: 'bug',
           integration_id: settings[:pivotal_external_integration_id].to_i,
           external_id: issue_url(context[:issue].id)[1..-1] # drop leading slash
         }
