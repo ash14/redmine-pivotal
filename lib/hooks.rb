@@ -19,7 +19,8 @@ module Pivotal
       project = pivotal.project(settings[:pivotal_project_id])
 
       if context[:issue].status.id == settings[:redmine_accepted_status_id].to_i
-        pivotal_owner = project.memberships.find { |m| m.person.email === User.current.email_address.address }
+        pivotal_owner = project.memberships.find { |m| m.person.email == User.current.email_address.address }
+        pivotal_requester = project.memberships.find { |m| m.person.email == context[:issue].author.email_address.address }
         story_attributes = {
           name: context[:issue].subject,
           description: context[:issue].description,
@@ -30,6 +31,7 @@ module Pivotal
         }
 
         story_attributes[:owner_ids] = [pivotal_owner.person.id] if pivotal_owner
+        story_attributes[:requested_by_id] = pivotal_requester.person.id if pivotal_requester
         project.create_story(story_attributes)
       end
     end
